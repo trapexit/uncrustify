@@ -214,13 +214,90 @@ void newline_func_def_or_call(Chunk *start)
                      // on conversion operators as they don't have a normal
                      // return type syntax
                   && (tmp_next->IsNot(E_Token::CT_OPERATOR) ? true : prev->IsTypeDefinition()))
-               {
-                  newline_iarf(prev, a);
-               }
-            }
-         }
-      }
-      Chunk const *pc = start->GetNextNcNnl();
+                {
+                   newline_iarf(prev, a);
+                }
+             }
+
+             if (  options::nl_func_qualifier() != IARF_IGNORE
+                && prev->IsNotNullChunk())
+             {
+                bool apply_qualifier = true;
+
+                if (is_def)
+                {
+                   log_rule_B("nl_func_leave_one_liners");
+                   Chunk const *brace = closing->GetNextNcNnl();
+
+                   if (  options::nl_func_leave_one_liners()
+                      && (  brace->IsNullChunk()
+                         || brace->TestFlags(PCF_ONE_LINER)))
+                   {
+                      apply_qualifier = false;
+                   }
+                }
+
+                if (apply_qualifier)
+                {
+                   // Walk backward to find the first token of the return type
+                   Chunk *rt = prev;
+
+                   while (rt->IsNotNullChunk())
+                   {
+                      Chunk *rt_prev = rt->GetPrevNcNnlNi();
+
+                      if (rt_prev->IsNullChunk())
+                      {
+                         break;
+                      }
+
+                      if (rt_prev->Is(E_Token::CT_SEMICOLON)
+                         || rt_prev->Is(E_Token::CT_BRACE_OPEN)
+                         || rt_prev->Is(E_Token::CT_BRACE_CLOSE)
+                         || rt_prev->Is(E_Token::CT_ACCESS_COLON)
+                         || rt_prev->Is(E_Token::CT_VBRACE_OPEN)
+                         || rt_prev->Is(E_Token::CT_VBRACE_CLOSE)
+                         || rt_prev->Is(E_Token::CT_ATTRIBUTE))
+                      {
+                         break;
+                      }
+
+                      if (rt->Is(E_Token::CT_ANGLE_CLOSE))
+                      {
+                         rt = skip_template_prev(rt);
+                         continue;
+                      }
+
+                      if (rt_prev->Is(E_Token::CT_TYPE)
+                         || rt_prev->Is(E_Token::CT_WORD)
+                         || rt_prev->Is(E_Token::CT_DC_MEMBER)
+                         || rt_prev->Is(E_Token::CT_STAR)
+                         || rt_prev->Is(E_Token::CT_BYREF)
+                         || rt_prev->Is(E_Token::CT_PTR_TYPE)
+                         || rt_prev->Is(E_Token::CT_QUALIFIER))
+                      {
+                         rt = rt_prev;
+                         continue;
+                      }
+                      break;
+                   }
+
+                    if (rt->Is(E_Token::CT_QUALIFIER))
+                    {
+                       log_rule_B("nl_func_qualifier");
+                       Chunk *qual = rt;
+
+                       while (qual->IsNotNullChunk() && qual->Is(E_Token::CT_QUALIFIER))
+                       {
+                          newline_iarf(qual, options::nl_func_qualifier());
+                          qual = qual->GetNextNcNnl();
+                       }
+                    }
+                }
+             }
+          }
+       }
+       Chunk const *pc = start->GetNextNcNnl();
 
       if (pc->IsString(")"))
       {

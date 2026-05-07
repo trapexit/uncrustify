@@ -498,6 +498,7 @@ nl_constr_init_args             = ignore
 nl_enum_own_lines               = ignore
 nl_func_type_name               = ignore
 nl_func_type_name_class         = ignore
+nl_func_qualifier               = ignore
 nl_func_class_scope             = ignore
 nl_func_scope_name              = ignore
 nl_func_proto_type_name         = ignore

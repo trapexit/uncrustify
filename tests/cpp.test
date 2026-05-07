@@ -1605,3 +1605,6 @@
 34886  common/global_align_span_constr_value_num_lines-1.cfg cpp/align_constr_value_span_num_mixed.cpp
 34887  common/global_align_span_constr_value_num_lines-2.cfg cpp/align_constr_value_span_num_mixed.cpp
 34888  common/global_align_span_constr_value_num_lines-3.cfg cpp/align_constr_value_span_num_mixed.cpp
+34889  cpp/nl_func_qualifier_force.cfg                     cpp/nl_func_qualifier.cpp
+34890  cpp/nl_func_qualifier_remove.cfg                    cpp/nl_func_qualifier.cpp
+34891  cpp/nl_func_qualifier_type_name.cfg                 cpp/nl_func_qualifier.cpp

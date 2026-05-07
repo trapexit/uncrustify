@@ -986,14 +986,15 @@ void newlines_cleanup_braces(bool first)
                || options::nl_func_decl_empty() != IARF_IGNORE
                || options::nl_func_def_empty() != IARF_IGNORE
                || options::nl_func_type_name() != IARF_IGNORE
-               || options::nl_func_type_name_class() != IARF_IGNORE
-               || options::nl_func_class_scope() != IARF_IGNORE
-               || options::nl_func_scope_name() != IARF_IGNORE
-               || options::nl_func_proto_type_name() != IARF_IGNORE
-               || options::nl_func_paren() != IARF_IGNORE
-               || options::nl_func_def_paren() != IARF_IGNORE
-               || options::nl_func_def_paren_empty() != IARF_IGNORE
-               || options::nl_func_paren_empty() != IARF_IGNORE))
+                || options::nl_func_type_name_class() != IARF_IGNORE
+                || options::nl_func_class_scope() != IARF_IGNORE
+                || options::nl_func_scope_name() != IARF_IGNORE
+                || options::nl_func_proto_type_name() != IARF_IGNORE
+                || options::nl_func_qualifier() != IARF_IGNORE
+                || options::nl_func_paren() != IARF_IGNORE
+                || options::nl_func_def_paren() != IARF_IGNORE
+                || options::nl_func_def_paren_empty() != IARF_IGNORE
+                || options::nl_func_paren_empty() != IARF_IGNORE))
          {
             newline_func_def_or_call(pc);
          }

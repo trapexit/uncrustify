@@ -2448,6 +2448,12 @@ nl_func_type_name;
 extern Option<iarf_e>
 nl_func_type_name_class;
 
+// Add or remove newline between each qualifier and the following token in a
+// function declaration or definition.
+// might be modified by nl_func_leave_one_liners
+extern Option<iarf_e>
+nl_func_qualifier;
+
 // Add or remove newline between class specification and '::'
 // in 'void A::f() { }'. Only appears in separate member implementation (does
 // not appear with in-line implementation).

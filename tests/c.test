@@ -730,3 +730,5 @@
 10238  common/global_align_span_typedef_num_lines-1.cfg  c/align_typedef_span_num_mixed.c
 10239  common/global_align_span_typedef_num_lines-2.cfg  c/align_typedef_span_num_mixed.c
 10240  common/global_align_span_typedef_num_lines-3.cfg  c/align_typedef_span_num_mixed.c
+10241  c/nl_func_qualifier_force.cfg                      c/nl_func_qualifier.c
+10242  c/nl_func_qualifier_remove.cfg                     c/nl_func_qualifier.c
