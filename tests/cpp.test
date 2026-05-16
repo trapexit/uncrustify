@@ -1574,6 +1574,9 @@
 60167  cpp/rvalue_and_ref_qualifiers.cfg                    cpp/rvalue_and_ref_qualifiers.cpp
 60170  cpp/nl_collapse_one_liner.cfg                       cpp/nl_collapse_one_liner.cpp
 60171  cpp/sp_deduction_guide_arrow.cfg                      cpp/deduction_guide.cpp
+60172  cpp/mod_sort_include_categories.cfg                  cpp/mod_sort_include_categories.cpp
+60173  cpp/macro-grammar.cfg                                cpp/macro-grammar.cpp
+60174  cpp/annotation_attr_newline.cfg                      cpp/annotation_attr_newline.cpp
 
 # global_span_num_*_lines tests (mixed lines via global fallback)
 34860  common/global_align_span_var_class_num_lines-1.cfg   cpp/align_var_class_span_num_mixed.cpp

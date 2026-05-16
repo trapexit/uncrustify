@@ -317,6 +317,18 @@ void print_custom_keywords(FILE *pfile)
                  uncrustify::limits::MAX_OPTION_NAME_LEN - 11, " ",
                  keyword_pair.first.c_str());
       }
+      else if (tt == E_Token::CT_ELSEIF)
+      {
+         fprintf(pfile, "macro-elseif %*.s%s\n",
+                 uncrustify::limits::MAX_OPTION_NAME_LEN - 13, " ",
+                 keyword_pair.first.c_str());
+      }
+      else if (tt == E_Token::CT_BODY)
+      {
+         fprintf(pfile, "macro-braced %*.s%s\n",
+                 uncrustify::limits::MAX_OPTION_NAME_LEN - 13, " ",
+                 keyword_pair.first.c_str());
+      }
       else if (tt == E_Token::CT_MACRO_NO_INDENT)
       {
          fprintf(pfile, "macro-no-indent %*.s%s\n",

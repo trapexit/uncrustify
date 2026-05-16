@@ -23,8 +23,10 @@
     <list name="directives">
       <item>file_ext</item>
       <item>include</item>
+      <item>macro-braced</item>
       <item>macro-close</item>
       <item>macro-else</item>
+      <item>macro-elseif</item>
       <item>macro-open</item>
       <item>type</item>
       <item>using</item>

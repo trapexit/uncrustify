@@ -73,13 +73,15 @@ static const char *DOC_TEXT_END = R"___(
 #
 #
 # - Custom macro-based indentation can be set up using 'macro-open',
-#   'macro-else' and 'macro-close'.
-#     `(macro-open | macro-else | macro-close) tokenString`
+#   'macro-else', 'macro-close', 'macro-elseif' and 'macro-braced'.
+#     `(macro-open | macro-else | macro-close | macro-elseif | macro-braced) tokenString`
 #
 #     Example:
 #       `macro-open  BEGIN_TEMPLATE_MESSAGE_MAP`
 #       `macro-open  BEGIN_MESSAGE_MAP`
 #       `macro-close END_MESSAGE_MAP`
+#       `macro-elseif ef`
+#       `macro-braced DEFER`
 #
 #
 )___";
@@ -1025,6 +1027,14 @@ void process_option_line(const std::string &config_line, const char *filename,
    else if (cmd == "macro-else")
    {
       add_keyword(args[1], E_Token::CT_MACRO_ELSE);
+   }
+   else if (cmd == "macro-elseif")
+   {
+      add_keyword(args[1], E_Token::CT_ELSEIF);
+   }
+   else if (cmd == "macro-braced")
+   {
+      add_keyword(args[1], E_Token::CT_BODY);
    }
    else if (cmd == "macro-no-indent")
    {

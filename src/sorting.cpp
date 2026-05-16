@@ -108,6 +108,20 @@ static void cleanup_categories()
 }
 
 
+static bool has_include_categories()
+{
+   for (auto include_category : include_categories)
+   {
+      if (include_category != nullptr)
+      {
+         return(true);
+      }
+   }
+
+   return(false);
+}
+
+
 static int get_chunk_priority(Chunk *pc)
 {
    if (chunk_priority_cache.count(pc) > 0)
@@ -514,46 +528,59 @@ static void blankline_add_before(Chunk *pc)
 static void group_imports_by_adding_newlines(Chunk **chunks, size_t num_chunks)
 {
    LOG_FUNC_ENTRY();
+   const bool has_categories = has_include_categories();
 
+   // With configured categories, only category changes should create groups
+   // unless another priority option explicitly asks for its own grouping.
    // Group imports based on first character, typically quote or angle.
-   int c_idx      = -1;
-   int c_idx_last = -1;
+   log_rule_B("mod_sort_incl_import_prioritize_angle_over_quotes");
 
-   for (size_t idx = 0; idx < num_chunks; idx++)
+   if (  !has_categories
+      || options::mod_sort_incl_import_prioritize_angle_over_quotes())
    {
-      if (chunks[idx]->GetText().size() > 0)
-      {
-         c_idx = chunks[idx]->GetText().at(0);
-      }
-      else
-      {
-         c_idx = -1;
-      }
+      int c_idx      = -1;
+      int c_idx_last = -1;
 
-      if (  c_idx_last != c_idx
-         && idx > 0)
+      for (size_t idx = 0; idx < num_chunks; idx++)
       {
-         blankline_add_before(chunks[idx]);
+         if (chunks[idx]->GetText().size() > 0)
+         {
+            c_idx = chunks[idx]->GetText().at(0);
+         }
+         else
+         {
+            c_idx = -1;
+         }
+
+         if (  c_idx_last != c_idx
+            && idx > 0)
+         {
+            blankline_add_before(chunks[idx]);
+         }
+         c_idx_last = c_idx;
       }
-      c_idx_last = c_idx;
    }
-
    // Group imports based on having extension.
-   bool chunk_has_dot      = false;
-   bool chunk_last_has_dot = false;
+   log_rule_B("mod_sort_incl_import_prioritize_extensionless");
 
-   for (size_t idx = 0; idx < num_chunks; idx++)
+   if (  !has_categories
+      || options::mod_sort_incl_import_prioritize_extensionless())
    {
-      chunk_has_dot = has_dot(chunks[idx]->GetText());
+      bool chunk_has_dot      = false;
+      bool chunk_last_has_dot = false;
 
-      if (  chunk_last_has_dot != chunk_has_dot
-         && idx > 0)
+      for (size_t idx = 0; idx < num_chunks; idx++)
       {
-         blankline_add_before(chunks[idx]);
-      }
-      chunk_last_has_dot = chunk_has_dot;
-   }
+         chunk_has_dot = has_dot(chunks[idx]->GetText());
 
+         if (  chunk_last_has_dot != chunk_has_dot
+            && idx > 0)
+         {
+            blankline_add_before(chunks[idx]);
+         }
+         chunk_last_has_dot = chunk_has_dot;
+      }
+   }
    // Group imports based on priority defined by config.
    int chunk_pri      = -1;
    int chunk_pri_last = -1;
@@ -571,20 +598,25 @@ static void group_imports_by_adding_newlines(Chunk **chunks, size_t num_chunks)
    }
 
    // Group imports that contain filename pattern.
-   bool chunk_has_filename      = false;
-   bool last_chunk_has_filename = false;
+   log_rule_B("mod_sort_incl_import_prioritize_filename");
 
-   for (size_t idx = 0; idx < num_chunks; idx++)
+   if (options::mod_sort_incl_import_prioritize_filename())
    {
-      auto const &chunk_text = chunk_sort_str(chunks[idx]);
-      chunk_has_filename = text_contains_filename_without_ext(chunk_text.GetLogText());
+      bool chunk_has_filename      = false;
+      bool last_chunk_has_filename = false;
 
-      if (  !chunk_has_filename
-         && last_chunk_has_filename)
+      for (size_t idx = 0; idx < num_chunks; idx++)
       {
-         blankline_add_before(chunks[idx]);
+         auto const &chunk_text = chunk_sort_str(chunks[idx]);
+         chunk_has_filename = text_contains_filename_without_ext(chunk_text.GetLogText());
+
+         if (  !chunk_has_filename
+            && last_chunk_has_filename)
+         {
+            blankline_add_before(chunks[idx]);
+         }
+         last_chunk_has_filename = chunk_has_filename;
       }
-      last_chunk_has_filename = chunk_has_filename;
    }
 } // group_imports_by_adding_newlines
 

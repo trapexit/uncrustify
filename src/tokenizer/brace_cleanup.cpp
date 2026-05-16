@@ -958,6 +958,16 @@ static bool check_complex_statements(ParsingFrame &frm, Chunk *pc, const BraceSt
 
          return(true);
       }
+      if (pc->Is(E_Token::CT_ELSEIF))
+      {
+         // A custom else-if macro is already a single token, so move straight
+         // from the previous if to the macro's condition.
+         frm.top().SetOpenToken(E_Token::CT_ELSEIF);
+         frm.top().SetStage(E_BraceStage::PAREN1);
+         print_stack(LBCSSWAP, "=Swap   ", frm);
+
+         return(true);
+      }
       // Remove the E_Token::CT_IF and close the statement
       LOG_FMT(LBCSPOP, "%s(%d): pc orig line is %zu, orig col is %zu, text is '%s', type is %s\n",
               __func__, __LINE__, pc->GetOrigLine(), pc->GetOrigCol(), pc->GetLogText(), get_token_name(pc->GetType()));

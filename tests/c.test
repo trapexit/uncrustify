@@ -732,3 +732,4 @@
 10240  common/global_align_span_typedef_num_lines-3.cfg  c/align_typedef_span_num_mixed.c
 10241  c/nl_func_qualifier_force.cfg                      c/nl_func_qualifier.c
 10242  c/nl_func_qualifier_remove.cfg                     c/nl_func_qualifier.c
+10243  c/annotation_macro_newline.cfg                     c/annotation_macro_newline.c

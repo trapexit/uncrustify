@@ -3847,13 +3847,15 @@ set_numbering_for_html_output   = false    # true/false
 #
 #
 # - Custom macro-based indentation can be set up using 'macro-open',
-#   'macro-else' and 'macro-close'.
-#     `(macro-open | macro-else | macro-close) tokenString`
+#   'macro-else', 'macro-close', 'macro-elseif' and 'macro-braced'.
+#     `(macro-open | macro-else | macro-close | macro-elseif | macro-braced) tokenString`
 #
 #     Example:
 #       `macro-open  BEGIN_TEMPLATE_MESSAGE_MAP`
 #       `macro-open  BEGIN_MESSAGE_MAP`
 #       `macro-close END_MESSAGE_MAP`
+#       `macro-elseif ef`
+#       `macro-braced DEFER`
 #
 #
 # option(s) with 'not default' value: 0
